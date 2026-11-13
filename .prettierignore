@@ -1,0 +1,7 @@
+node_modules/
+packages/sdk/dist/
+.example-build/
+.artifacts/
+package-lock.json
+contracts/*.json
+packages/sdk/src/generated/

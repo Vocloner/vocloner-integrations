@@ -1,0 +1,44 @@
+{
+  "name": "@vocloner/sdk",
+  "version": "0.1.0-beta.1",
+  "description": "Server-side TypeScript client for the Vocloner Voices & Audio API",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./webhooks": {
+      "types": "./dist/webhooks.d.ts",
+      "import": "./dist/webhooks.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vocloner/vocloner-integrations.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://github.com/Vocloner/vocloner-integrations#readme",
+  "bugs": {
+    "url": "https://github.com/Vocloner/vocloner-integrations/issues"
+  }
+}

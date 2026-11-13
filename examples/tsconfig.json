@@ -1,0 +1,9 @@
+{
+  "extends": "../packages/sdk/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../.example-build",
+    "declaration": false
+  },
+  "include": ["typescript/**/*.ts"]
+}

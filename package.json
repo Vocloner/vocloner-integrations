@@ -1,0 +1,37 @@
+{
+  "name": "vocloner-integrations",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "npm run build --workspace @vocloner/sdk",
+    "typecheck": "tsc -p packages/sdk/tsconfig.json --noEmit && tsc -p examples/tsconfig.json --noEmit",
+    "test": "npm run build && npm run test:unit",
+    "test:unit": "node --test --experimental-test-isolation=none packages/sdk/tests/*.test.mjs scripts/*.test.mjs",
+    "contracts:generate": "node scripts/generate-types.mjs",
+    "contracts:check": "node scripts/generate-types.mjs --check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "pack:check": "npm run build && node scripts/check-package.mjs",
+    "check": "npm run contracts:check && npm run build && npm run typecheck && npm run test:unit && npm run format:check && node scripts/check-package.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.9.2",
+    "prettier": "3.9.6",
+    "typescript": "5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vocloner/vocloner-integrations.git"
+  },
+  "homepage": "https://github.com/Vocloner/vocloner-integrations#readme",
+  "bugs": {
+    "url": "https://github.com/Vocloner/vocloner-integrations/issues"
+  }
+}

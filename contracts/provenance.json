@@ -1,0 +1,9 @@
+{
+  "source_commit": "666331d",
+  "source_contract": "lib/public-api/contract.ts",
+  "api_version": "v1",
+  "openapi_version": "3.1.1",
+  "exported_on": "2026-11-13",
+  "sha256": "b29d91f9a6216c877acce9ef8e8f1665731b40e501c578a164f07b43e90753d2",
+  "postman_sha256": "75c00b7e48858c94b8532eb3a08aa1c531f761b87e07e754995541777fa605e8"
+}

@@ -1,0 +1,682 @@
+{
+  "info": {
+    "name": "Vocloner Voices & Audio API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.vocloner.org/v1"
+    },
+    {
+      "key": "api_key",
+      "value": ""
+    },
+    {
+      "key": "resource_id",
+      "value": "c816ce5b-22f5-4ed2-91a9-90e79b874a24"
+    },
+    {
+      "key": "idempotency_cloneVoice",
+      "value": ""
+    },
+    {
+      "key": "idempotency_updateVoice",
+      "value": ""
+    },
+    {
+      "key": "idempotency_requestPublication",
+      "value": ""
+    },
+    {
+      "key": "idempotency_reportVoice",
+      "value": ""
+    },
+    {
+      "key": "idempotency_createDesign",
+      "value": ""
+    },
+    {
+      "key": "idempotency_selectDesign",
+      "value": ""
+    },
+    {
+      "key": "idempotency_createSpeech",
+      "value": ""
+    },
+    {
+      "key": "idempotency_createDialogue",
+      "value": ""
+    },
+    {
+      "key": "idempotency_createFile",
+      "value": ""
+    },
+    {
+      "key": "idempotency_completeFile",
+      "value": ""
+    },
+    {
+      "key": "idempotency_createConsent",
+      "value": ""
+    },
+    {
+      "key": "idempotency_processAudio",
+      "value": ""
+    },
+    {
+      "key": "idempotency_cancelJob",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "List voices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/voices",
+        "description": "Owned voices and authorized public voices. Paginate with cursor and limit. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_listVoices in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Get a voice",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/voices/{{resource_id}}",
+        "description": "Retrieve metadata for a voice you are allowed to use. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_getVoice in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Clone a voice",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_cloneVoice';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_cloneVoice}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/voices",
+        "description": "Upload and confirm a recording before cloning. Include a recorded challenge when required. New voices are private. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_cloneVoice in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"file_id\": \"ab198ae5-9225-40f3-b176-56ed83861080\",\n  \"name\": \"Mi voz\",\n  \"consent_ownership\": true,\n  \"language\": \"es\",\n  \"category\": \"narrator\",\n  \"locale\": \"es\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Update a voice",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_updateVoice';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_updateVoice}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/voices/{{resource_id}}",
+        "description": "Update the name, language or category of an owned voice. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_updateVoice in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Narración\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Delete a voice",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{base_url}}/voices/{{resource_id}}",
+        "description": "Delete an owned voice. Existing generations keep their retention rules. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_deleteVoice in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Request publication",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_requestPublication';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_requestPublication}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/voices/{{resource_id}}/publication-requests",
+        "description": "Confirm public use permission and request review. A request does not automatically publish the voice. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_requestPublication in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"consent_public_use\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Report a voice",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_reportVoice';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_reportVoice}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/voices/{{resource_id}}/reports",
+        "description": "Report impersonation, missing consent or other abuse for review. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_reportVoice in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reason\": \"no_consent\",\n  \"detail\": \"Información para la revisión.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Design voice candidates",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_createDesign';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_createDesign}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/voice-designs",
+        "description": "Describe a voice to obtain temporary candidates. Save a candidate before using it for speech. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_createDesign in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"prompt\": \"Una voz cálida, clara y pausada para narración en español.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Get a voice design",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/voice-designs/{{resource_id}}",
+        "description": "Retrieve candidates and expiration for an owned design batch. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_getDesign in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Save a candidate",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_selectDesign';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_selectDesign}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/voice-designs/{{resource_id}}/voices",
+        "description": "Create a reusable private voice without charging the design again. Requires an available voice slot. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_selectDesign in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidate_id\": \"c816ce5b-22f5-4ed2-91a9-90e79b874a24\",\n  \"name\": \"Narradora\",\n  \"language\": \"es\",\n  \"category\": \"narrator\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Generate speech",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_createSpeech';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_createSpeech}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/speech",
+        "description": "Convert text to MP3 or WAV. Supports compatible expressive tags. Prefer: wait=20 waits up to twenty seconds; the response may still be 202. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_createSpeech in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"voice_id\": \"c816ce5b-22f5-4ed2-91a9-90e79b874a24\",\n  \"text\": \"Hola, esta es mi primera generación con Vocloner.\",\n  \"format\": \"mp3\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Generate a dialogue",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_createDialogue';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_createDialogue}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/dialogues",
+        "description": "Between two and ten lines. Every voice must be authorized and the plan must enable dialogues. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_createDialogue in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"lines\": [\n    {\n      \"voice_id\": \"c816ce5b-22f5-4ed2-91a9-90e79b874a24\",\n      \"text\": \"Hola.\"\n    },\n    {\n      \"voice_id\": \"c816ce5b-22f5-4ed2-91a9-90e79b874a24\",\n      \"text\": \"Bienvenido.\"\n    }\n  ],\n  \"gap_ms\": 400\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Prepare an upload",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_createFile';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_createFile}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/files",
+        "description": "Obtain a temporary authorization for a direct upload to private Storage. Confirm the upload using /complete afterwards. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_createFile in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"file_name\": \"voz.wav\",\n  \"content_type\": \"audio/wav\",\n  \"size_bytes\": 1048576,\n  \"purpose\": \"clone\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Complete an upload",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_completeFile';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_completeFile}}"
+          }
+        ],
+        "url": "{{base_url}}/files/{{resource_id}}/complete",
+        "description": "Validate actual content, size, duration and hash before allowing use. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_completeFile in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Get a file",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/files/{{resource_id}}",
+        "description": "Retrieve status, duration and expiration of an owned file. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_getFile in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Delete a file",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{base_url}}/files/{{resource_id}}",
+        "description": "Delete an owned file when no active job needs it. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_deleteFile in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Create a consent challenge",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_createConsent';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_createConsent}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/consent-challenges",
+        "description": "Obtain a temporary phrase, record it and upload the audio with purpose: consent. Include both identifiers when cloning. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_createConsent in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"locale\": \"es\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Process audio",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_processAudio';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_processAudio}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/audio-tools/trim",
+        "description": "Check /capabilities for available operations and options. Supply exactly one owned file or generation. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_processAudio in collection variables ONLY to start a new operation.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"file_id\": \"ab198ae5-9225-40f3-b176-56ed83861080\",\n  \"options\": {\n    \"start_ms\": 0,\n    \"end_ms\": 5000\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "List jobs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/jobs",
+        "description": "Paginated owned jobs ordered by creation. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_listJobs in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Get a job",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/jobs/{{resource_id}}",
+        "description": "Retrieve status, result and billed characters. Respect Retry-After before polling again. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_getJob in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Cancel a job",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const variable = 'idempotency_cancelJob';",
+              "if (!pm.collectionVariables.get(variable)) pm.collectionVariables.set(variable, pm.variables.replaceIn('{{$guid}}'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Idempotency-Key",
+            "value": "{{idempotency_cancelJob}}"
+          }
+        ],
+        "url": "{{base_url}}/jobs/{{resource_id}}/cancel",
+        "description": "Cancel queued work immediately. For running work, request cancellation and check the final status and usage. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_cancelJob in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "List generations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/generations",
+        "description": "List owned generations from the web, MCP and API using a stable cursor. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_listGenerations in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Get a generation",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/generations/{{resource_id}}",
+        "description": "Retrieve metadata and the audio reference of an owned generation. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_getGeneration in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Delete a generation",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{base_url}}/generations/{{resource_id}}",
+        "description": "Delete an owned generation according to retention rules. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_deleteGeneration in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Download audio",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/assets/{{resource_id}}/content",
+        "description": "Return authorized audio bytes. Send Bearer on every download; never put the key in the URL. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_downloadAsset in collection variables ONLY to start a new operation."
+      }
+    },
+    {
+      "name": "Get capabilities",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/capabilities",
+        "description": "Check formats, operations and limits supported in this environment before integrating. Reuse the same Idempotency-Key when retrying a write. Clear idempotency_getCapabilities in collection variables ONLY to start a new operation."
+      }
+    }
+  ]
+}

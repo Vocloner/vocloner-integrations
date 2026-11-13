@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.example-build/
+.artifacts/
+coverage/
+*.tgz
+*.log
+.env*
+!.env.example
+.vocloner-operation*
+*.mp3
+*.wav
+*.pem
+*.key
+.DS_Store
