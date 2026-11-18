@@ -3,6 +3,12 @@
 Server-side TypeScript SDK and connection guides for Vocloner's remote MCP server.
 [Español](README.es.md).
 
+## Links
+
+- Website: https://vocloner.org
+- MCP server guide: https://vocloner.org/mcp
+- Remote MCP endpoint: `https://account.vocloner.org/api/mcp`
+
 **Local beta `0.1.0-beta.1`.** This package has not been published to npm. The package name and
 ownership are provisional. Live API/MCP availability and staging end-to-end checks have not been
 verified for this release. Using an enabled service consumes your existing Vocloner plan's quota.

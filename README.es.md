@@ -2,6 +2,12 @@
 
 SDK TypeScript para servidor y guías del servidor MCP remoto de Vocloner. [English](README.md).
 
+## Enlaces
+
+- Sitio: https://vocloner.org
+- Guía del servidor MCP: https://vocloner.org/mcp
+- Endpoint MCP remoto: `https://account.vocloner.org/api/mcp`
+
 **Beta local `0.1.0-beta.1`.** El paquete aún no está publicado en npm. Su nombre y titularidad son
 provisionales. Esta versión no acredita disponibilidad pública de API/MCP ni una validación integral
 de staging. Usar el servicio habilitado consume la cuota de tu plan de Vocloner.
